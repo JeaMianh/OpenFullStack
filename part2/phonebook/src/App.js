@@ -1,4 +1,7 @@
 import { useState } from "react";
+import SearchForm from "./components/SearchForm";
+import AddPersonForm from "./components/AddPersonForm";
+import PersonList from "./components/PersonList";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -9,6 +12,9 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [searchName, setSearchName] = useState('')
+
+  const personsToShow = persons.filter(person => person.name.includes(searchName))
 
   // 读取输入
   const handleAddName = (e) => {
@@ -17,71 +23,46 @@ const App = () => {
   const handleAddNumber = (e) => {
     setNewNumber(e.target.value)
   }
+  const handleSearchName = (e) => {
+    setSearchName(e.target.value)
+  }
 
   // 真正的提交逻辑
-  const addName = (e) => {
+  const addPerson = (e) => {
     e.preventDefault()
     // const personObject = { // 创建一个新的对象, 而不是原来对象的展开
     //   ...persons,
     //   name: newName
     // }
-    const nameObject = {
+    const personObject = {
       name: newName,
-      number: '',
+      number: newNumber,
       id: persons.length + 1
     }
     // if (persons.includes({nameObject.name})) { // includes() 不能判断对象中的属性
     if (persons.some(person => person.name === newName)) {
+      // person 是一个代表数组 persons 中当前正在处理的元素的变量。
       alert(`${newName} is already added to phonebook`)
       return
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-  }
-  const addNumber = (e) => {
-    e.preventDefault()
-    // const personObject = { // 同上
-    //   ...persons,
-    //   number : newNumber
-    // }
-     const numberObject = {
-      name: '',
-      number: newNumber,
-      id: persons.length + 1
-    }
-    if (persons.some(person => person.number === newNumber)) {
+    if (persons.some(person => person.number === newNumber)){
+      
       alert(`${newNumber} is already added to phonebook`)
       return
     }
-    setPersons(persons.concat(numberObject))
+
+    setPersons(persons.concat(personObject))
+    setNewName('')
     setNewNumber('')
-  }
-  const handleSubmit = (e) => {
-    addName(e)
-    addNumber(e)
   }
 
   return (
     <div>
       <h1>PhoneBook</h1>
-      <form onSubmit = {handleSubmit}>
-        <input
-          placeholder = 'name'
-          value = {newName}
-          onChange = {handleAddName}
-          // onChange = {(e) => setNewName(e.target.value)}
-        />
-        <br/>
-        <input
-          placeholder = 'number'
-          value = {newNumber}
-          onChange = {handleAddNumber}
-        />
-        <button type = 'submit'>add</button>
-      </form>
-      <h2>Numbers</h2>
-        {persons.map(person => <li key = {person.name}>{person.name} {person.number}</li>)}
-        {console.log(persons.map(person => <li key = {person.name}>{person.name}</li>) )}
+      {/* <SearchForm searchName = {searchName} handleSearchName = {handleSearchName} /> */}
+      <SearchForm {...{searchName, handleSearchName}} />
+      <AddPersonForm {...{newName, newNumber, handleAddName, handleAddNumber, addPerson}} />
+      <PersonList {...{personsToShow}}/>
     </div>
   )
 }
