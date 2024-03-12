@@ -10,7 +10,7 @@
       "id": "2",
       "content": "Browser can execute only JavaScript",
       "date": "2022-1-17T18:39:34.091Z",
-      "important": false
+      "important": true
     },
     {
       "id": "3",
@@ -22,6 +22,36 @@
       "id": "4",
       "content": "A new note",
       "date": "2024-03-12T11:34:56.446Z",
+      "important": false
+    },
+    {
+      "id": "99c7",
+      "content": "A new note",
+      "date": "2024-03-12T11:40:09.864Z",
+      "important": false
+    },
+    {
+      "id": "6b9d",
+      "content": "nihv",
+      "date": "2024-03-12T11:40:41.962Z",
+      "important": true
+    },
+    {
+      "id": "1467",
+      "content": "A new note",
+      "date": "2024-03-12T11:59:01.127Z",
+      "important": false
+    },
+    {
+      "id": "355f",
+      "content": "A new note",
+      "date": "2024-03-12T12:14:39.747Z",
+      "important": true
+    },
+    {
+      "id": "0323",
+      "content": "A new note",
+      "date": "2024-03-12T12:43:23.962Z",
       "important": false
     }
   ]

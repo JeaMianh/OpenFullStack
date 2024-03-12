@@ -1,28 +1,28 @@
 import { useState, useEffect } from 'react'
 import Note from './components/Note'
 import axios from 'axios'
+import noteService from './services/note'
 
 const App = () => {
   // const result = notes.map((note, i) => note.content)
   // console.log(result)
   const [notesList, setNoteList] = useState([])
-  // console.log(noteList)
+  console.log(notesList)
   const [newNote, setNewNote] = useState('A new note')
   const [showAll, setShowAll] = useState(true)
 
- 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log('promise fulfilled')
-        setNoteList(response.data)
-    })
-  }
-  useEffect(hook, [])
+  useEffect(() => {
+    noteService
+      .getAll()
+      .then(initialNotes=> {
+        setNoteList(initialNotes)
+      })
+      // .then(response => {
+        // setNoteList(response.data)
+      // })
+  }, [])
 
-  console.log('render', notesList.length, 'notes')
+  // console.log('render', notesList.length, 'notes')
 
   const notesToShow = showAll ? notesList : notesList.filter(note => note.important)
 
@@ -39,12 +39,52 @@ const App = () => {
     const noteObject = {
       content : newNote,
       date : new Date().toISOString(),
-      important : Math.random() < 0.5,
-      id : notesList.length + 1,
+      important : false,
+      // id : `${notesList.length + 1}`
     }
 
-    setNoteList(notesList.concat(noteObject))
-    setNewNote('')
+    // axios
+    //   .post('http://localhost:3001/notes', noteObject)
+    //   .then(response => {
+    //     console.log(response)
+    //     // setNoteList(notesList.concat(response.data))
+    //     // setNewNote('')
+    //     setNoteList(notesList.concat(noteObject))
+    //     setNewNote('')
+    //   })
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNoteList(notesList.concat(returnedNote))
+        setNewNote('')
+      })
+      // .then(response => {
+      //   setNoteList(notesList.concat(response.data))
+      //   setNewNote('')
+      // })
+  }
+
+  const toggleImportanceOf = (id) => {
+    // console.log(`importance of ${id} needs to be toggled`)
+    id = id.toString()
+    const url = `http://localhost:3001/notes/${id}`
+    console.log('url', url)
+    const note = notesList.find(n => n.id === id)
+    console.log('note', note)
+    const changeNote = {...note, important : !note.important}
+    console.log('changeNote', changeNote)
+
+    // axios.put(url, changeNote).then(response => {
+    //   setNoteList(notesList.map(note => note.id !== id ? note : response.data))
+    // })
+    noteService
+      .update(id, changeNote)
+      .then(returnedNote => {
+        setNoteList(notesList.map(note => note.id !== id ? note : returnedNote))
+      })
+      // .then(response => {
+      //   setNoteList(notesList.map(note => note.id !== id ? note : response.data))
+      // })
   }
 
   return (
@@ -57,7 +97,11 @@ const App = () => {
       </div>
       <ul>
         {notesToShow.map((note) => 
-          <Note key = {note.id} note = {note} />
+          <Note 
+            key = {note.id}
+            note = {note}
+            toggleImportance = {() => toggleImportanceOf(note.id)} 
+          />
         )}
         {/* map() 按照参数的映射规则，创造一个新的React数组 */}
       </ul>
