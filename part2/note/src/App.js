@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
 import Note from './components/Note'
-import axios from 'axios'
 import noteService from './services/note'
 
 const App = () => {
-  // const result = notes.map((note, i) => note.content)
-  // console.log(result)
   const [notesList, setNoteList] = useState([])
   console.log(notesList)
   const [newNote, setNewNote] = useState('A new note')
@@ -17,12 +14,8 @@ const App = () => {
       .then(initialNotes=> {
         setNoteList(initialNotes)
       })
-      // .then(response => {
-        // setNoteList(response.data)
-      // })
   }, [])
 
-  // console.log('render', notesList.length, 'notes')
 
   const notesToShow = showAll ? notesList : notesList.filter(note => note.important)
 
@@ -40,32 +33,17 @@ const App = () => {
       content : newNote,
       date : new Date().toISOString(),
       important : false,
-      // id : `${notesList.length + 1}`
     }
 
-    // axios
-    //   .post('http://localhost:3001/notes', noteObject)
-    //   .then(response => {
-    //     console.log(response)
-    //     // setNoteList(notesList.concat(response.data))
-    //     // setNewNote('')
-    //     setNoteList(notesList.concat(noteObject))
-    //     setNewNote('')
-    //   })
     noteService
       .create(noteObject)
       .then(returnedNote => {
         setNoteList(notesList.concat(returnedNote))
         setNewNote('')
       })
-      // .then(response => {
-      //   setNoteList(notesList.concat(response.data))
-      //   setNewNote('')
-      // })
   }
 
   const toggleImportanceOf = (id) => {
-    // console.log(`importance of ${id} needs to be toggled`)
     id = id.toString()
     const url = `http://localhost:3001/notes/${id}`
     console.log('url', url)
@@ -74,9 +52,6 @@ const App = () => {
     const changeNote = {...note, important : !note.important}
     console.log('changeNote', changeNote)
 
-    // axios.put(url, changeNote).then(response => {
-    //   setNoteList(notesList.map(note => note.id !== id ? note : response.data))
-    // })
     noteService
       .update(id, changeNote)
       .then(returnedNote => {
@@ -88,9 +63,6 @@ const App = () => {
         )
         setNoteList(notesList.filter(n => n.id !== id))
       })
-      // .then(response => {
-      //   setNoteList(notesList.map(note => note.id !== id ? note : response.data))
-      // })
   }
 
   return (

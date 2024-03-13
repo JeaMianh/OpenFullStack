@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import SearchForm from "./components/SearchForm";
 import AddPersonForm from "./components/AddPersonForm";
 import PersonList from "./components/PersonList";
-
+import personService from "./services/person";
+import person from "./services/person";
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -12,11 +12,10 @@ const App = () => {
   
   useEffect(() => {
     console.log('effect');
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled');
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initData => {
+        setPersons(initData)
       })
   }, [])
 
@@ -43,23 +42,39 @@ const App = () => {
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1
-    }
-    // if (persons.includes({nameObject.name})) { // includes() 不能判断对象中的属性
-    if (persons.some(person => person.name === newName)) {
-      // person 是一个代表数组 persons 中当前正在处理的元素的变量。
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
-    if (persons.some(person => person.number === newNumber)){
-      
-      alert(`${newNumber} is already added to phonebook`)
-      return
+      // id: persons.length + 1
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    const isDulicate = (name, number) => {
+      return persons.some(person => person.name === name) || persons.some(person => person.number === number)
+    } // person 是一个代表数组 persons 中当前正在处理的元素的变量。
+    // if (persons.includes({nameObject.name})) { // includes() 不能判断对象中的属性
+    
+    if (isDulicate(newName, newNumber)) {
+      alert(`${newName} or ${newNumber} is already added to phonebool.`)
+      return
+    }
+    
+    personService
+      .create(personObject)
+      .then(returnedData => {
+        setPersons(persons.concat(returnedData))
+        setNewName('')
+        setNewNumber('') 
+        console.log('return:', returnedData)
+      })
+      .catch(error  => {
+        console.error('Error:', error)
+      })
+      console.log(persons)
+
+    
+     
+  }
+
+  const deletePerson = (id) => {
+
+
   }
 
   return (
@@ -68,7 +83,7 @@ const App = () => {
       {/* <SearchForm searchName = {searchName} handleSearchName = {handleSearchName} /> */}
       <SearchForm {...{searchName, handleSearchName}} />
       <AddPersonForm {...{newName, newNumber, handleAddName, handleAddNumber, addPerson}} />
-      <PersonList {...{personsToShow}}/>
+      <PersonList {...{personsToShow, deletePerson}}/>
     </div>
   )
 }
