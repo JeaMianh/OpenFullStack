@@ -22,36 +22,42 @@
       "id": "4",
       "content": "A new note",
       "date": "2024-03-12T11:34:56.446Z",
-      "important": false
+      "important": true
     },
     {
       "id": "99c7",
       "content": "A new note",
       "date": "2024-03-12T11:40:09.864Z",
-      "important": false
+      "important": true
     },
     {
       "id": "6b9d",
       "content": "nihv",
       "date": "2024-03-12T11:40:41.962Z",
-      "important": true
+      "important": false
     },
     {
       "id": "1467",
       "content": "A new note",
       "date": "2024-03-12T11:59:01.127Z",
-      "important": false
+      "important": true
     },
     {
       "id": "355f",
       "content": "A new note",
       "date": "2024-03-12T12:14:39.747Z",
-      "important": true
+      "important": false
     },
     {
       "id": "0323",
       "content": "A new note",
       "date": "2024-03-12T12:43:23.962Z",
+      "important": true
+    },
+    {
+      "id": "841c",
+      "content": "A new note",
+      "date": "2024-03-13T12:08:06.211Z",
       "important": false
     }
   ]
