@@ -13,9 +13,24 @@ const create = async peopleObject => {
     return response.data
 }
 
-const update = async (id, peopleObject) => {
-    const response = await axios.put(`${baseUrl}/${id}`, peopleObject)
-    return response.data 
+const deleteP = async (id) => {
+    try {
+        const response = await axios.delete(`${baseUrl}/${id}`)
+        return response.data 
+    } catch (error) {
+        console.error('Delete failed:', error)
+    }
 }
+
+const updateNumber = async (id, updatePerson) => {
+    try {
+        const response = await axios.put(`${baseUrl}/${id}`, updatePerson)
+        return response.data
+    } catch (error) {
+        console.error('Updata failed:', error)
+        console.log('url', `${baseUrl}/${id}`)
+    }
+}
+
 // eslint-disable-next-line
-export default { getAll, create, update }
+export default { getAll, create, deleteP, updateNumber }
