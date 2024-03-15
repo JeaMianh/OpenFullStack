@@ -55,6 +55,14 @@ app.get('/api/notes/:id', (request, response) => {
   // response.json(note)
 })
 
+const generateId = () => {
+  const maxID = notes.length > 0
+    ? Math.max(...notes.map(n => n.id))
+    : 0
+    // ... 将数组转换成数字
+  return maxID + 1
+}
+
 app.post('/api/notes', (request, response) => {
   const body = request.body
 
@@ -73,7 +81,7 @@ app.post('/api/notes', (request, response) => {
 
   notes = notes.concat(note)
 
-  response.json(notes)
+  response.json(note)
 })
 
 app.delete('/api/notes/:id', (request, response) => {
