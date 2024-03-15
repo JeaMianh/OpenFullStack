@@ -79,6 +79,7 @@ const App = () => {
         return
       }
     
+      // 添加新的联系人
     personService
       .create(personObject)
       .then(returnedData => {
@@ -92,7 +93,8 @@ const App = () => {
       })
       console.log(persons)
   }
-
+  
+    // 删除联系人
   const deletePerson = (id, name) => {
     // const url = `http://localhost:3001/persons/${id}`
     // const person = persons.find(p => p.id === id)

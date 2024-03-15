@@ -1,0 +1,10 @@
+h1 {
+    color: aquamarine;
+    font-style: italic;
+}
+
+.note {
+    color: rgb(235, 9, 9);
+    padding-top: 3px;
+    font-size: medium;
+}
