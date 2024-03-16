@@ -3,7 +3,9 @@
 const express = require('express') // 创建一个 express 应用
 const app = express() // 存储在 app 变量中
 
+const cors = require('cors')
 app.use(express.json())
+app.use(cors())
 
 let notes = [
   {
@@ -90,6 +92,6 @@ app.delete('/api/notes/:id', (request, response) => {
 
   response.status(204).end()
 })
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
