@@ -1,1 +1,1 @@
-GET http://localhost:3001/api/notes
+GET http://172.207.33.197:3001/api/notes
