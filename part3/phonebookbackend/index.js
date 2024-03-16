@@ -1,8 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 morgan.token('content', (request, response) => {
   return JSON.stringify(request.body) || '-'
