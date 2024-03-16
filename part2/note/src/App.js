@@ -45,7 +45,7 @@ const App = () => {
 
   const toggleImportanceOf = (id) => {
     id = id.toString()
-    const url = `http://localhost:3001/api/notes/${id}`
+    const url = `http://172.207.33.197:3001/${id}`
     console.log('url', url)
     const note = notesList.find(n => n.id === id)
     console.log('note', note)
