@@ -41,5 +41,5 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "json-server": "^1.0.0-alpha.23"
   },
-  "proxy": "http://localhost/3001"
+  "proxy": "http://localhost:3001"
 }
