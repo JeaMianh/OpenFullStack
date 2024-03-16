@@ -5,6 +5,7 @@ const app = express() // 存储在 app 变量中
 
 const cors = require('cors')
 app.use(express.json())
+app.use(express.static('build'))
 app.use(cors())
 
 let notes = [
