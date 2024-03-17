@@ -67,8 +67,7 @@ app.post('/api/persons', (request, response) => {
     // 400 客户端错误
   }
 
-  const name = body.name
-  Person.findOne({name: name}).then(isDuplicate => {
+  Person.findOne({name: body.name, number: body.number }).then(isDuplicate => {
     if (isDuplicate) {
       return response.status(400).json({error: 'name must be unique'})
     }
@@ -84,6 +83,18 @@ app.post('/api/persons', (request, response) => {
   })
 })
 
+app.put('/api/persons/:id', (request, response) => {
+  const number = request.body.number
+
+  Person.findByIdAndUpdate(request.params.id, {number: number}, {new: true})
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => {
+      console.log(error)
+      response.status(400).send({error: 'malformatted id'})
+    })
+})
 
 app.delete('/api/persons/:id', (request, response) => {
   Person.findByIdAndDelete(request.params.id)
