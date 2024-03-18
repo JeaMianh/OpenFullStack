@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import Note from './components/Note'
 import noteService from './services/note'
+// import {TextField, Button, InputAdornment, IconButton, SearchIcon } from '@mui/material';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+// import SearchIcon from '@mui/material/IconSearch';
 
 const App = () => {
   const [notesList, setNoteList] = useState([])
@@ -70,9 +76,9 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <div>
-        <button onClick = {() => setShowAll(!showAll)}>
+        <Button onClick = {() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
-        </button>
+        </Button>
       </div>
       <ul>
         {notesToShow.map((note) => 
@@ -88,14 +94,24 @@ const App = () => {
 {/* <form onSubmit={addNote}>: 这是一个表单元素，当用户提交表单时，会触发addNote函数。这个函数可能用于处理用户输入的新笔记并将其保存。
 <input value={newNote} onChange={handleNoteChange}>: 这是一个输入框，用户可以在其中输入笔记内容。value={newNote}表示输入框的值由newNote变量控制。onChange={handleNoteChange}是一个事件处理器，当输入框的内容发生变化时，会调用handleNoteChange函数，这个函数可能用于更新newNote变量的值。
 <button type="submit">save</button>: 这是一个按钮，用户点击后会提交表单。type="submit"指定了按钮的类型为提交按钮。 */}
-      <form onSubmit={addNote}>
+      <TextField onSubmit={addNote}>
         <input 
           value = {newNote} 
           onChange = {handleNoteChange}
           />
-        <button type = "submit">save</button>
-      </form>
 
+        InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton>
+              {/* <SearchIcon /> */}
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+        
+      </TextField>
+      {/* <Button type = "submit">save</Button> */}
     </div>
   )
 }
