@@ -8,26 +8,34 @@ const Note = require('../models/note')
 
 // get 的第一个参数定义了路径
 // 定义一个路由
-notesRouter.get('/', (request, response,) => {
+notesRouter.get('/', async (request, response,) => {
+  const notes = await Note.find({})
   // Note 是一个 Mongoose 模型
-  Note.find({}).then(notes => {
-    response.json(notes)
-  })
+  response.json(notes)
+  // Note.find({}).then(notes => {
+  //   response.json(notes)
+  // })
 })
 
 // 冒号语法，用于定义参数
-notesRouter.get('/:id', (request, response, next) => {
-  Note.findById(request.params.id)
-    .then(note => {
-      if (note) {
-        response.json(note)
-      } else {
-        response.status(404).end()
-      }
-    })
-    .catch(error => { // 如果 findById 返回的 promise 被拒绝，会抛出异常
-      next(error) // 将控制权交给错误处理中间件
-    })
+notesRouter.get('/:id', async (request, response, next) => {
+  const note = await Note.findById(request.params.id)
+  if (note) {
+    response.json(note)
+  } else {
+    response.status(400).end()
+  }
+  // Note.findById(request.params.id)
+  //   .then(note => {
+  //     if (note) {
+  //       response.json(note)
+  //     } else {
+  //       response.status(404).end()
+  //     }
+  //   })
+  //   .catch(error => { // 如果 findById 返回的 promise 被拒绝，会抛出异常
+  //     next(error) // 将控制权交给错误处理中间件
+  //   })
 })
 
 notesRouter.post('/', (request, response, next) => {
@@ -44,9 +52,10 @@ notesRouter.post('/', (request, response, next) => {
     content: body.content,
     important:body.important || false,
   }) 
+
   note.save()
     .then(savedNote => {
-      response.json(savedNote)
+      response.status(201).json(savedNote)
     })
     .catch(error => next(error))
 })

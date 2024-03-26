@@ -3,6 +3,14 @@ Content-Type: application/json
 // 一定要指定数据的类型
 
 {
-   "content": "REST client is a good tool for testing a REST-api",
-   "important": true
-}
+  "content": "Browser can execute only Javascript",
+  "important": true
+},
+# {
+#    "content": "REST client is a good tool for testing a REST-api",
+#    "important": true
+# },
+# {
+#    "content": "HTML is easy",
+#    "important": false
+# }
