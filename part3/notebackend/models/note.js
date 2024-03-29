@@ -9,6 +9,7 @@ const noteSchema = new mongoose.Schema({
     },
     important: Boolean,
     user: {
+        // mongoose 引用 user 式文档
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }

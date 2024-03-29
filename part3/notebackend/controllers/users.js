@@ -3,6 +3,12 @@ const bcrypt = require('bcrypt')
 const userRouter = require('express').Router()
 const User = require('../models/user')
 
+userRouter.get('/', async (request, response) => {
+  // 替换 user 的 notes 字段，指向 note 文档
+  const users = await User.find({}).populate('notes')
+  response.json(users)
+})
+
 userRouter.post('/', async (request, response) => {
     const { username, name, password } =  request.body
 
