@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 
 const Note = ({note, toggleImportance}) => {
     const label = note.important ? 'important' : 'unimportant'
@@ -9,13 +9,13 @@ const Note = ({note, toggleImportance}) => {
              <li className = 'note'>
                 {note.content}
             </li>
-            <Button 
+            <button 
                 // variant="contained" 
                 // color="primary"
                 onClick = {toggleImportance}
             >
                 {label}
-            </Button>
+            </button>
         </div>
        
     )

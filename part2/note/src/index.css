@@ -1,10 +1,11 @@
 h1 {
-    color: aquamarine;
-    font-style: italic;
+    color: rgb(0, 0, 0);
+    font-style: oblique;
 }
 
 .note {
-    color: rgb(235, 9, 9);
+    color: black;
     padding-top: 3px;
     font-size: medium;
+    font-style: normal;
 }
