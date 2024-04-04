@@ -1,4 +1,3 @@
-import { useSlotProps } from "@mui/base";
 import React, { useState } from "react";
 
 const Togglabel = (props) => {

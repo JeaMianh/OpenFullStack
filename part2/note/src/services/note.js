@@ -6,16 +6,16 @@ let token = null
 
 const setToken = newToken => {
     token = `Bearer ${newToken}`
-    console.log(token)
+    // console.log(token)
 }
 //const getAll = () => {
 //   return axios.get(baseUrl)
 // }
 // 原来的函数直接返回axios方法返回的promise
 // 修改后，只返回response.data
-const getAll = () => {
-    const request = axios.get(baseUrl)
-    return request.then(reponse => reponse.data)
+const getAll = async () => {
+    const response = await axios.get(baseUrl)
+    return response.data
 }
 
 // 异步函数
@@ -29,10 +29,11 @@ const create = async newObject => {
     return response.data;
 }
 
-const update = (id, newObject) => {
+const update = async (id, newObject) => {
 
     const request = axios.put(`${baseUrl}/${id}`, newObject)
-    return request.then(response => response.data)
+    const response = await request;
+    return response.data;
 }
 
 export default { getAll, create, update, setToken }

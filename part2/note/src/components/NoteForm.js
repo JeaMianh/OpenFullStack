@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from 'react'
 
-const NoteForm = () => {
+const NoteForm = ({ createNote }) => {
 	
   const [newNote, setNewNote] = useState('A new note')
  
@@ -14,18 +14,12 @@ const NoteForm = () => {
     // 阻止提交默认表单 
     event.preventDefault()
     console.log('button clicked', event.target);
-    const noteObject = {
+    createNote({
       content : newNote,
       date : new Date().toISOString(),
       important : false,
-    }
-
-    noteService
-      .create(noteObject)
-      .then(returnedNote => {
-        setNoteList(notesList.concat(returnedNote))
-        setNewNote('')
-      })
+    })
+    setNewNote('')
   }
 
   return (
