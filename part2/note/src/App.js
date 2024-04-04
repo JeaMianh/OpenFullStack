@@ -1,25 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Togglabel from './components/Togglable'
 import NoteForm from './components/NoteForm'
 import LoginForm from './components/LoginForm'
-// import Note from './components/Note'
-import noteService from './services/note'
 import NoteList from './components/NoteList'
+
+import noteService from './services/note'
 import loginService from './services/login'
-// import Notification from './components/Notification'
 
 const App = () => { 
   const [notesList, setNoteList] = useState([])
-const [user, setUser] = useState(null)
-const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+
+  const noteFormRef = useRef()
+  // 从组件外部访问组件的函数，创建一个参考 
   
-  // useEffect(async () => {
-  //   const initialNotes = await noteService.getAll()
-  //   console.log(initialNotes)
-  //   setNoteList(initialNotes)
-  // }, [])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,26 +33,21 @@ const [username, setUsername] = useState('')
         if (loggerUserJSON) {
             const user = JSON.parse(loggerUserJSON)
             setUser(user)
-            console.log(user)
+            // console.log(user)
             noteService.setToken(user.token)
             console.log('Store successfully!')
         }
-    }, [])
+  }, [])
 
-const handleLogin = async (username, password) => {
-        // event.preventDefault()
-        console.log('logging in with', username, password)
-        try {
-          const user = await loginService.login({ username, password })
-          // console.log('first:', user.token)
-          window.localStorage.setItem(
-              'loggedNoteappUser', JSON.stringify(user)
-          )
-          // console.log('second:', user.Token)
-          noteService.setToken(user.token)
-          setUser(user)
-          // setUsername('')
-          // setPassword('')
+  const handleLogin = async (username, password, ) => {
+      console.log('logging in with', username, password)
+      try {
+        const user = await loginService.login({ username, password })
+        window.localStorage.setItem(
+            'loggedNoteappUser', JSON.stringify(user)
+        )
+        noteService.setToken(user.token)
+        setUser(user)
       } catch (exception) {
       // setErrorMessage('Wrong credentials')
       // setTimeout(() => {
@@ -66,7 +56,14 @@ const handleLogin = async (username, password) => {
       }
     }
 
+  const handleLogout = () => {
+    console.log('log out successfully')
+    setUser(null)
+  }
+  
+
   const addNote = async (noteObject) => {
+      noteFormRef.current.toggleVisibilty()
       noteService
       .create(noteObject)
       .then(returnedNote => {
@@ -77,12 +74,12 @@ const handleLogin = async (username, password) => {
 
   const toggleImportanceOf = (id) => {
     id = id.toString()
-    const url = `http://172.207.33.197:3001/${id}`
-    console.log('url', url)
+    // const url = `http://172.207.33.197:3001/${id}`
+    // console.log('url', url)
     const note = notesList.find(n => n.id === id)
-    console.log('note', note)
+    // console.log('note', note)
     const changenote = {...note, important : !note.important}
-    console.log('changenote', changenote)
+    // console.log('changenote', changenote)
 
     noteService
     .update(id, changenote)
@@ -96,10 +93,8 @@ const handleLogin = async (username, password) => {
         )
         setNoteList(notesList.filter(n => n.id !== id))
     })
-}
-//  const handleLogin = async (event) => {
-    
-//   }
+  }
+
   return (
     <div>
       <h1>Notes</h1>
@@ -109,16 +104,15 @@ const handleLogin = async (username, password) => {
             <Togglabel buttonLabel='log in'>
               <LoginForm
                 userLogin={handleLogin}  
-                username={username}
-                password={password}
-                setUsername={setUsername}
-                setPassword={setPassword}
               />
             </Togglabel>
           :
             <div>
-              <p>{user.name} logged-in</p>
-              <Togglabel buttonLabel='new note'>
+              <p>
+                {user.name} logged-in
+                <button onClick={handleLogout}>log out</button>
+              </p>
+              <Togglabel buttonLabel='new note' ref={noteFormRef}>
                 <NoteForm
                   createNote={addNote}
                 />
@@ -126,16 +120,11 @@ const handleLogin = async (username, password) => {
             </div>
         }
 
-      
-      
-       
-
       <NoteList
         notesList={notesList}
         toggleImportanceOf={toggleImportanceOf}
       />
 
-     {/* <Button type = "submit">save</Button> */}
     </div>
   )
 }

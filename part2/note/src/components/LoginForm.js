@@ -1,9 +1,9 @@
 import React from "react"
-// import { useState, useEffect } from 'react'
-// import loginService from '../services/login'
-// import noteService from '../services/note'
+import { useState } from 'react'
 
-const LoginForm = ({ userLogin, username, password, setUsername, setPassword }) => { 
+const LoginForm = ({ userLogin }) => { 
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
     
     const handleUsername = ({ target }) => {
         setUsername(target.value)
@@ -20,21 +20,6 @@ const LoginForm = ({ userLogin, username, password, setUsername, setPassword }) 
         // setUser(user)
         setUsername('')
         setPassword('')
-    //     try {
-    //       const user = await loginService.login({ username, password })
-    //       console.log('first:', user.token)
-    //       window.localStorage.setItem(
-    //           'loggedNoteappUser', JSON.stringify(user)
-    //       )
-    //       // console.log('second:', user.Token)
-    //       noteService.setToken(user.token)
-          
-    //   } catch (exception) {
-    //   // setErrorMessage('Wrong credentials')
-    //   // setTimeout(() => {
-    //   //   setErrorMessage(null)
-    //   // }, 5000)
-    //   }
     }
 
     return (
