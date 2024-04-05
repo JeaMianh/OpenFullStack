@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "test": "NODE_ENV=test node --test",
-    "build:ui": "rm -rf build && cd ../../part2/note && npm run build && cp -r build ../../part3/backend",
+    "build:ui": "rm -rf build && cd ../../part2/note && npm run build && cp -r build ../../part3/notebackend",
     "deploy": "npm run build:ui && git add . && git commit -m uibuild"
   },
   "author": "jeamianh",
